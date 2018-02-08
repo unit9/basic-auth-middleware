@@ -1,6 +1,8 @@
 import re
 import base64
 
+from netaddr import IPNetwork, IPAddress
+
 
 def parse(auth):
     if not auth or not auth.startswith("Basic "):
@@ -66,9 +68,10 @@ class BasicAuthIPMiddleware(BasicAuthMiddleware):
     allowed_ips = []
 
     def authenticate(self, environ):
-        remote_ip = environ.get("REMOTE_ADDR")
+        remote_ip = IPAddress(environ.get("REMOTE_ADDR"))
 
-        if remote_ip in self.allowed_ips:
-            return True
+        for allowed_ip in self.allowed_ips:
+            if remote_ip in IPNetwork(allowed_ip):
+                return True
 
         return super(BasicAuthIPMiddleware, self).authenticate(environ)

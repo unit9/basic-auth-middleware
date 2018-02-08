@@ -19,7 +19,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='basic-auth-middleware',
-    version='1.0.0',
+    version='1.0.1',
     description='A WSGI middleware providing HTTP Basic Auth',
     long_description=long_description,
     url='https://github.com/unit9/basic-auth-middleware',
@@ -33,4 +33,7 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     py_modules=['basic_auth_middleware'],
+    install_requires=[
+        'netaddr>=0.7.19',
+    ],
 )
