@@ -75,3 +75,18 @@ class BasicAuthIPMiddleware(BasicAuthMiddleware):
                 return True
 
         return super(BasicAuthIPMiddleware, self).authenticate(environ)
+
+
+class BasicAuthCORSMiddleware(BasicAuthIPMiddleware):
+    """
+    When you are using CORS, preflight OPTIONS request should not ask for credentials.
+    Usage:
+    class MyBasicAuth(BasicAuthCORSMiddleware):
+        excluded_methods = ['OPTIONS']
+    """
+    excluded_methods = []
+
+    def authenticate(self, environ):
+        if environ.get('REQUEST_METHOD') in self.excluded_methods:
+            return True
+        return super(BasicAuthCORSMiddleware, self).authenticate(environ)
