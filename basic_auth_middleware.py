@@ -7,7 +7,7 @@ from netaddr import IPNetwork, IPAddress
 def parse(auth):
     if not auth or not auth.startswith("Basic "):
         return
-    auth = base64.b64decode(auth.split(" ", 1)[1])
+    auth = base64.b64decode(auth.split(" ", 1)[1]).decode('utf-8')
     if ":" not in auth:
         return
     return tuple(auth.split(":", 1))  # user, password
